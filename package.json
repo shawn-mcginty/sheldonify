@@ -29,10 +29,8 @@
   },
   "homepage": "https://github.com/shawn-mcginty/sheldonify#readme",
   "dependencies": {
-    "chai": "^3.3.0",
-    "mocha": "^2.3.3",
     "rewire": "^2.3.4",
-    "sinon": "^1.17.0"
+    "sinon": "^1.17.0",
     "astro": "^0.7.1",
     "async": "^1.4.2"
   }
