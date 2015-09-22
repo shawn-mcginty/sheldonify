@@ -1,10 +1,17 @@
 {
   "name": "sheldonify",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Replaces every word in a string with the largest found synonym making your message impossible to read!",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "test"
+    "postinstall": "npm run transpile",
+    "prestart": "npm run transpile",
+    "start": "node --harmony --harmony_arrow_functions boot_server.js",
+    "pretranspile": "astro jshint",
+    "transpile": "astro babel",
+    "pretest": "npm run transpile",
+    "test": "astro test --watch",
+    "nowatchtest": "astro test"
   },
   "repository": {
     "type": "git",
@@ -15,10 +22,14 @@
     "sheldonify",
     "awesome"
   ],
-  "author": "Peeps",
+  "author": "Shawn McGinty",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shawn-mcginty/sheldonify/issues"
   },
-  "homepage": "https://github.com/shawn-mcginty/sheldonify#readme"
+  "homepage": "https://github.com/shawn-mcginty/sheldonify#readme",
+  "dependencies": {
+    "astro": "^0.7.1",
+    "async": "^1.4.2"
+  }
 }
