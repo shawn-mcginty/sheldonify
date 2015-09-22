@@ -1,0 +1,24 @@
+{
+  "name": "sheldonify",
+  "version": "1.0.0",
+  "description": "Replaces every word in a string with the largest found synonym making your message impossible to read!",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shawn-mcginty/sheldonify.git"
+  },
+  "keywords": [
+    "sheldon",
+    "sheldonify",
+    "awesome"
+  ],
+  "author": "Peeps",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shawn-mcginty/sheldonify/issues"
+  },
+  "homepage": "https://github.com/shawn-mcginty/sheldonify#readme"
+}
