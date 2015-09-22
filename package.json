@@ -1,6 +1,6 @@
 {
   "name": "sheldonify",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Replaces every word in a string with the largest found synonym making your message impossible to read!",
   "main": "dist/index.js",
   "scripts": {
