@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/shawn-mcginty/sheldonify/issues"
   },
-  "homepage": "https://github.com/shawn-mcginty/sheldonify#readme"
+  "homepage": "https://github.com/shawn-mcginty/sheldonify#readme",
+  "dependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3",
+    "rewire": "^2.3.4",
+    "sinon": "^1.17.0"
+  }
 }
