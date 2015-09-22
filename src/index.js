@@ -2,30 +2,54 @@
 var async = require('async');
 
 var https = require('./helpers/https_wrapper');
-var config = require('./config.json');
+var config = require('./config');
+var synonymUtils = require('./helpers/synonyms');
+
 var buildPath = (word) => {
-	return `/api/2/${config.apiKey}/${word}/json/`;
+	return `/api/2/${config.apiKey}/${word}/json`;
 };
 
-module.exports = (string) => {
-	let lexors = string.split(' ');
-	let httpConfig = {
-		host: 'words.bighugelabs.com',
-		path: '',
-		port: 443,
-		method: 'GET'
-	};
-	let mappedLexors = lexors.map((word) => {
-		let path = buildPath(word);
+var findLargestSynonym = (dictionary) => {
+	return null;
+};
 
-		httpConfig.path = path;
-
-		return (function(cb) {
-			return https(httpConfig, cb);
+module.exports = (string, callback) => {
+	let words = string.split(' ');
+	let lexors = [];
+	words.forEach((word, i) => {
+		let matchingWords = lexors.filter((lexor) => {
+			return lexor === word;
 		});
+
+		if (matchingWords.length === 0) {
+			lexors.push(word);
+		}
 	});
 
-	async.parallel(mappedLexors, (data) => {
-		console.log(data);
+	async.map(lexors, (word, cb) => {
+		let httpConfig = {
+			host: 'words.bighugelabs.com',
+			path: buildPath(word),
+			port: 443,
+			method: 'GET'
+		};
+
+		https(httpConfig, (err, data) => {
+			if (err) {
+				return cb(err);
+			}
+
+			let largestSynonym = synonymUtils.findLargestSynonym(data);
+
+			string = string.replace(new RegExp(word, 'g'), largestSynonym);
+			cb(null, null);
+		});
+	}, (err) => {
+		if (err) {
+			console.log(err);
+			return callback(err, null);
+		}
+
+		callback(null, string);
 	});
 };

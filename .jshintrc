@@ -1,0 +1,10 @@
+{
+        "browser": true,
+        "node": true,
+        "mocha": true,
+        "jquery": true,
+        "globalstrict": true,
+        "asi": true,
+        "predef":["Rx"],
+        "esnext": true
+}

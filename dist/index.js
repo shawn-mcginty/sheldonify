@@ -2,30 +2,52 @@
 var async = require('async');
 
 var https = require('./helpers/https_wrapper');
-var config = require('./config.json');
+var config = require('./config');
 var buildPath = function buildPath(word) {
-	return '/api/2/' + config.apiKey + '/' + word + '/json/';
+	return '/api/2/' + config.apiKey + '/' + word + '/json';
 };
 
-module.exports = function (string) {
-	var lexors = string.split(' ');
-	var httpConfig = {
-		host: 'words.bighugelabs.com',
-		path: '',
-		port: 443,
-		method: 'GET'
-	};
-	var mappedLexors = lexors.map(function (word) {
-		var path = buildPath(word);
+var findLargestSynonym = function findLargestSynonym(dictionary) {
+	return null;
+};
 
-		httpConfig.path = path;
+module.exports = function (string, callback) {
+	var words = string.split(' ');
+	var lexors = [];
+	words.forEach(function (word, i) {
+		var matchingWords = lexors.filter(function (lexor) {
+			return lexor === word;
+		});
 
-		return function (cb) {
-			return https(httpConfig, cb);
-		};
+		if (matchingWords.length === 0) {
+			lexors.push(word);
+		}
 	});
 
-	async.parallel(mappedLexors, function (data) {
-		console.log(data);
+	async.map(lexors, function (word, cb) {
+		var httpConfig = {
+			host: 'words.bighugelabs.com',
+			path: buildPath(word),
+			port: 443,
+			method: 'GET'
+		};
+
+		https(httpConfig, function (err, data) {
+			if (err) {
+				return cb(err);
+			}
+
+			var largestSynonym = findLargestSynonym(data);
+
+			string.replace(word, largestSynonym);
+			callback(null, null);
+		});
+	}, function (err) {
+		if (err) {
+			console.log(err);
+			return callback(err, null);
+		}
+
+		callback(null, string);
 	});
 };

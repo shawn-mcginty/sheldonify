@@ -5,9 +5,9 @@ module.exports = function (connectionOptions, callback) {
 	connectionOptions.port = 443;
 
 	var request = https.request(connectionOptions, function (proxyResponse) {
-		var responseBody = [];
+		var responseBody = '';
 		var addChunk = function addChunk(chunk) {
-			responseBody.push(chunk);
+			responseBody += chunk;
 		};
 		var endOfChunking = function endOfChunking() {
 			try {
@@ -29,10 +29,9 @@ module.exports = function (connectionOptions, callback) {
 
 		proxyResponse.on('end', endOfChunking);
 	});
+	request.end();
 
 	request.on('error', function (err) {
 		callback(err);
 	});
-
-	request.end();
 };
